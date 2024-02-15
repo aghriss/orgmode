@@ -73,19 +73,73 @@ function Calendar.open()
 
   local map_opts = { buffer = Calendar.buf, silent = true, nowait = true }
 
-  vim.keymap.set('n', 'j', '<cmd>lua require("orgmode.objects.calendar").cursor_down()<cr>', map_opts)
-  vim.keymap.set('n', 'k', '<cmd>lua require("orgmode.objects.calendar").cursor_up()<cr>', map_opts)
-  vim.keymap.set('n', 'h', '<cmd>lua require("orgmode.objects.calendar").cursor_left()<cr>', map_opts)
-  vim.keymap.set('n', 'l', '<cmd>lua require("orgmode.objects.calendar").cursor_right()<cr>', map_opts)
-  vim.keymap.set('n', '>', '<cmd>lua require("orgmode.objects.calendar").forward()<CR>', map_opts)
-  vim.keymap.set('n', '<', '<cmd>lua require("orgmode.objects.calendar").backward()<CR>', map_opts)
-  vim.keymap.set('n', '<CR>', '<cmd>lua require("orgmode.objects.calendar").select()<CR>', map_opts)
-  vim.keymap.set('n', '.', '<cmd>lua require("orgmode.objects.calendar").reset()<CR>', map_opts)
-  vim.keymap.set('n', 'i', '<cmd>lua require("orgmode.objects.calendar").read_date()<CR>', map_opts)
-  vim.keymap.set('n', 'q', ':call nvim_win_close(win_getid(), v:true)<CR>', map_opts)
-  vim.keymap.set('n', '<Esc>', ':call nvim_win_close(win_getid(), v:true)<CR>', map_opts)
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.cursor_down,
+    '<cmd>lua require("orgmode.objects.calendar").cursor_down()<cr>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.cursor_up,
+    '<cmd>lua require("orgmode.objects.calendar").cursor_up()<cr>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.cursor_left,
+    '<cmd>lua require("orgmode.objects.calendar").cursor_left()<cr>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.cursor_right,
+    '<cmd>lua require("orgmode.objects.calendar").cursor_right()<cr>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.forward,
+    '<cmd>lua require("orgmode.objects.calendar").forward()<CR>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.backward,
+    '<cmd>lua require("orgmode.objects.calendar").backward()<CR>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.select,
+    '<cmd>lua require("orgmode.objects.calendar").select()<CR>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.reset,
+    '<cmd>lua require("orgmode.objects.calendar").reset()<CR>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.read_date,
+    '<cmd>lua require("orgmode.objects.calendar").read_date()<CR>',
+    map_opts
+  )
+  vim.keymap.set(
+    'n',
+    config.mappings.calendar_object.close_window,
+    ':call nvim_win_close(win_getid(), v:true)<CR>',
+    map_opts
+  )
   if Calendar.clearable then
-    vim.keymap.set('n', 'r', '<cmd>lua require("orgmode.objects.calendar").clear_date()<CR>', map_opts)
+    vim.keymap.set(
+      'n',
+      config.mappings.calendar_object.clear_date,
+      '<cmd>lua require("orgmode.objects.calendar").clear_date()<CR>',
+      map_opts
+    )
   end
   local search_day = Date.today():format('%d')
   if Calendar.date then
@@ -321,6 +375,9 @@ function Calendar.read_date()
       vim.fn.search(date:format('%d'), 'W')
     end
   end)
+end
+function Calendar.close_window()
+  vim.api.nvim_win_close(Calendar.win, true)
 end
 
 return Calendar
